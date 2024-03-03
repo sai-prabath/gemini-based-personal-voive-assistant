@@ -45,8 +45,10 @@ if __name__=='__main__':
         #bard call
         if "mac".lower() in query.lower():
             b_res=tobard(chatbot,query,response,count)
+            if b_res[1]==1:
+                count+=2
             print(b_res)
-            say(b_res)
+            say(b_res[0])
 
 
         

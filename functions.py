@@ -36,11 +36,12 @@ def TellTime():
 def tobard(chatbot,query,response,count):
     try:
         response = chatbot.ask(query)
-        return response['content']
+        return [response['content'],0]
     except:
         try:
             response=response.reply(query)
-            return response.messages[count]['content']
+            return [response.messages[count]['content'],1]
         except:
-            print("Sorry i can't assist you with that")
-            say("Sorry i can't assist you with that")
+            return ["Sorry i can.t assist you with that",1]
+
+            
