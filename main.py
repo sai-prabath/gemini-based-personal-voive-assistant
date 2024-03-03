@@ -1,62 +1,5 @@
-import speech_recognition as sr
-import wikipedia
-import openai
-import os
-import webbrowser
-import datetime
-import google.generativeai as palm
-from Bard import Chatbot
-from config import openaiAPIkey,psid,psidts,palmAPIkey
-
-
-# Speaks Query
-def say(query):
-    try:
-        os.system(f"say {query}")
-    except:
-        print("Escape sequence occured, cant readable")
-
-# Takes Voice Command
-def takecmd():
-    r = sr.Recognizer()
-    with sr.Microphone() as source:
-        r.pause_threshold= 1
-        audio=r.listen(source)
-        try:
-            query=r.recognize_google(audio,language="en - in")
-            print(f"user said: {query}")
-            return query
-        except Exception as e:
-            return "some Error occured , please check your internet and say again"
-
-# Opens a site
-def OpenSite(site):
-    try:
-        webbrowser.open(site)
-    except:
-        say("sorry Can.t open site")
-
-# Says the Time
-def TellTime():
-    time = datetime.datetime.now().strftime("%H:%M:%S")
-    say(f"The Time is {time}")
-
-
-# bard connect
-def tobard(query,response,count):
-    try:
-        response = chatbot.ask(query)
-        return response['content']
-    except:
-        try:
-            response=response.reply(query)
-            count+=2
-            return response.messages[count]['content']
-        except:
-            print("Sorry i can't assist you with that")
-            say("Sorry i can't assist you with that")
-
-
+from __init__ import *
+from functions import *
 
 if __name__=='__main__':
 
@@ -66,13 +9,12 @@ if __name__=='__main__':
         chatbot = Chatbot(psid,psidts)
         print("ChatBot connected")
     except:
+        chatbot=""
         API_KEY=palmAPIkey
         palm.configure(api_key=API_KEY)
         response=palm.chat(prompt='hi')
         print("Failed to connect to internet.. generetes pretrained response")
         say("Failed to connect to internet.. generetes pretrained response")
-
-    say("I am voice assistant")
 
     while(True):
 
@@ -102,9 +44,11 @@ if __name__=='__main__':
 
         #bard call
         if "mac".lower() in query.lower():
-            b_res=tobard(query,response,count)
+            b_res=tobard(chatbot,query,response,count)
+            if b_res[1]==1:
+                count+=2
             print(b_res)
-            say(b_res)
+            say(b_res[0])
 
 
         
