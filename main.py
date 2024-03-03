@@ -54,6 +54,7 @@ def tobard(query,response,count):
             return response.messages[count]['content']
         except:
             print("Sorry i can't assist you with that")
+            say("Sorry i can't assist you with that")
 
 
 
@@ -63,13 +64,13 @@ if __name__=='__main__':
     try:
         count=1
         chatbot = Chatbot(psid,psidts)
+        print("ChatBot connected")
+    except:
         API_KEY=palmAPIkey
         palm.configure(api_key=API_KEY)
         response=palm.chat(prompt='hi')
-        print("ChatBot connected")
-    except:
-        print("Failed to connect...")
-
+        print("Failed to connect to internet.. generetes pretrained response")
+        say("Failed to connect to internet.. generetes pretrained response")
 
     say("I am voice assistant")
 
