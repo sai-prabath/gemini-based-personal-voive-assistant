@@ -5,11 +5,11 @@ if __name__=='__main__':
 
     # Configuring ChatBot
     try:
-        count=1
         chatbot = Chatbot(psid,psidts)
         print("ChatBot connected")
     except:
         chatbot=""
+        count=1
         API_KEY=palmAPIkey
         palm.configure(api_key=API_KEY)
         response=palm.chat(prompt='hi')
